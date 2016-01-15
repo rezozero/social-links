@@ -56,7 +56,7 @@ $share->setClassPrefix('social-link');
 $share->setIconPrefix('fa');
 echo $share->getLink('facebook', $share->getIcon('facebook'));
 
-// <a class=" social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook"></i><span class="social-link-name">Facebook</span></a>
+// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook"></i><span class="social-link-name">Facebook</span></a>
 ```
 
 And if you don’t want any icon, don’t be lazy, just `display: none;` it!
@@ -68,7 +68,7 @@ $share->setClassPrefix('social-link');
 $share->setIconPrefix('fa');
 echo $share->getLink('facebook', $share->getUseSVG('facebook'));
 
-// <a class=" social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
+// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
 ```
 
 And if you don’t want any icon, don’t be lazy, just `display: none;` it!
@@ -114,3 +114,44 @@ echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'), ' - ');
 * tumblr
 * twitter
 * whatsapp
+
+## Twig extension
+
+```php
+$twig->addExtension(new \RZ\SocialLinks\Twig\SocialLinksExtension());
+```
+
+`SocialLinksExtension` *Twig* extension introduces 2 new filters to be able 
+to generate your social links without any PHP code.
+
+* `socials_links`
+* `svg_socials_links`
+
+First you’ll need to gather your social data in an associative array or 
+simply `set` a string variable (it will be used as the URL).
+
+```twig
+{% set social_data = {
+    'url': 'http://www.rezo-zero.com',
+    'title': 'REZO ZERO website homepage',
+} %}
+{# or #}
+{% set social_data = 'http://www.rezo-zero.com' %}
+```
+
+Then, you can use one of the 2 *SocialLinks* filters with or without optional
+arguments. Selected networks can be set using an array or a simple string.
+
+```twig
+<nav class="social-links">
+    {{ social_data|socials_links(['facebook', 'twitter']) }}
+</nav>
+
+<nav class="social-links">
+    {{ social_data|socials_links('twitter') }}
+</nav>
+
+<nav class="social-links">
+    {{ social_data|socials_links(['facebook', 'twitter'], 'icon-prefix', 'class-prefix', 'link-classes') }}
+</nav>
+```
