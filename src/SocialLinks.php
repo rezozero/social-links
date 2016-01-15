@@ -34,6 +34,8 @@ class SocialLinks
     protected $title;
     protected $imageUrl;
     protected $status;
+    protected $classPrefix = 'social-link';
+    protected $iconPrefix = 'fa';
 
     /**
      * An array of services and their corresponding share/bookmarking URLs.
@@ -58,7 +60,7 @@ class SocialLinks
             $this->imageUrl = $data['imageUrl'];
         }
         if (!empty($data['status'])) {
-            $this->status = $data['status'];
+            $this->status = $data['status'] . ' — ' . $this->url;
         } else {
             $this->status = $this->title . ' — ' . $this->url;
         }
@@ -80,41 +82,41 @@ class SocialLinks
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'digg' => array(
                 'base' => 'http://digg.com/submit',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'email' => array(
                 'base' => 'mailto:',
                 'query' => array(
-                    'body' => $this->url,
+                    'body' => $this->status,
                     'subject' => $this->title,
-                )
+                ),
             ),
             'evernote' => array(
                 'base' => 'http://www.evernote.com/clip.action',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'facebook' => array(
                 'base' => 'https://www.facebook.com/sharer/sharer.php',
                 'query' => array(
                     'u' => $this->url,
-                )
+                ),
             ),
             'friendfeed' => array(
                 'base' => 'http://www.friendfeed.com/share',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'google' => array(
                 'base' => 'http://www.google.com/bookmarks/mark',
@@ -122,13 +124,13 @@ class SocialLinks
                     'op' => 'edit',
                     'bkmk' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
-            'gplus' => array(
+            'google-plus' => array(
                 'base' => 'https://plus.google.com/share',
                 'query' => array(
                     'url' => $this->url,
-                )
+                ),
             ),
             'linkedin' => array(
                 'base' => 'http://www.linkedin.com/shareArticle',
@@ -136,14 +138,14 @@ class SocialLinks
                     'mini' => 'true',
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'newsvine' => array(
                 'base' => 'http://www.newsvine.com/_tools/seed&save',
                 'query' => array(
                     'u' => $this->url,
                     'h' => $this->title,
-                )
+                ),
             ),
             'pinterest' => array(
                 'base' => 'http://www.pinterest.com/pin/create/button/',
@@ -151,42 +153,42 @@ class SocialLinks
                     'url' => $this->url,
                     'description' => $this->title,
                     'media' => $this->imageUrl,
-                )
+                ),
             ),
-            'pocket' => array(
+            'get-pocket' => array(
                 'base' => 'https://getpocket.com/save',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'reddit' => array(
                 'base' => 'http://www.reddit.com/submit',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'slashdot' => array(
                 'base' => 'http://slashdot.org/bookmark.pl',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'stumbleupon' => array(
                 'base' => 'http://www.stumbleupon.com/submit',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'technorati' => array(
                 'base' => 'http://technorati.com/faves',
                 'query' => array(
                     'add' => $this->url,
                     'title' => $this->title,
-                )
+                ),
             ),
             'tumblr' => array(
                 'base' => 'http://www.tumblr.com/share',
@@ -194,20 +196,20 @@ class SocialLinks
                     'v' => 3,
                     'u' => $this->url,
                     't' => $this->title,
-                )
+                ),
             ),
             'twitter' => array(
                 'base' => 'http://twitter.com/home',
                 'query' => array(
                     'status' => $this->status,
-                )
+                ),
             ),
             'whatsapp' => array(
                 'base' => 'whatsapp://send',
                 'query' => array(
                     'text' => $this->status,
-                )
-            )
+                ),
+            ),
         );
     }
 
@@ -219,12 +221,157 @@ class SocialLinks
      */
     public function getUrl($network)
     {
+        if ($network == '') {
+            throw new \RuntimeException("You must choose a social network", 1);
+        }
+
         if (isset($this->definitions[$network]) &&
             isset($this->definitions[$network]['base']) &&
             isset($this->definitions[$network]['query'])) {
             return $this->definitions[$network]['base'] . "?" . http_build_query($this->definitions[$network]['query']);
         } else {
-            throw new \RuntimeException("Social network not found (".$network.")", 1);
+            throw new \RuntimeException("Social network not found (" . $network . ")", 1);
         }
+    }
+
+    /**
+     * Get the HTML icon tag for social network
+     * to work with a custom prefix.
+     *
+     * @param  string $network
+     * @param  string $prefix (default: icon)
+     * @return string
+     */
+    public function getIcon($network)
+    {
+        if ($network == '') {
+            throw new \RuntimeException("You must choose a social network", 1);
+        }
+
+        return sprintf(
+            '<i class="%s-icon %s %s-%s"></i>',
+            $this->classPrefix,
+            $this->iconPrefix,
+            $this->iconPrefix,
+            $network
+        );
+    }
+
+    /**
+     * Get HTML link tag with icon and text
+     * for given social network.
+     *
+     * @param  string $network
+     * @return string
+     */
+    public function getLinkWithIcon($network)
+    {
+        if ($network == '') {
+            throw new \RuntimeException("You must choose a social network", 1);
+        }
+
+        return sprintf(
+            '<a class="%s %s-%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            $this->classPrefix,
+            $this->classPrefix,
+            $network,
+            $this->getUrl($network),
+            $this->getIcon($network),
+            $this->classPrefix,
+            ucwords($network)
+        );
+    }
+
+    /**
+     * Get HTML links tags with icon and text
+     * for given social networks.
+     *
+     * @param  array|string  $networks
+     * @param  string $separator
+     * @return string
+     */
+    public function getLinksWithIconForNetworks($networks = array(), $separator = '')
+    {
+        if (is_string($networks)) {
+            return $this->getLinkWithIcon($networks);
+        } elseif (is_array($networks)) {
+            $output = array();
+            foreach ($networks as $network) {
+                if ($this->supports($network)) {
+                    $output[] = $this->getLinkWithIcon($network);
+                }
+            }
+
+            return implode($separator, $output);
+        }
+
+        return '';
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableSocialNetworks()
+    {
+        return array_keys($this->definitions);
+    }
+
+    /**
+     * Tell if SocialLinks supports given network.
+     *
+     * @param  string $network
+     * @return boolean
+     */
+    public function supports($network)
+    {
+        return isset($this->definitions[$network]);
+    }
+
+    /**
+     * Gets the value of classPrefix.
+     *
+     * @return mixed
+     */
+    public function getClassPrefix()
+    {
+        return $this->classPrefix;
+    }
+
+    /**
+     * Sets the value of classPrefix.
+     *
+     * @param mixed $classPrefix the class prefix
+     *
+     * @return self
+     */
+    public function setClassPrefix($classPrefix)
+    {
+        $this->classPrefix = $classPrefix;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of iconPrefix.
+     *
+     * @return mixed
+     */
+    public function getIconPrefix()
+    {
+        return $this->iconPrefix;
+    }
+
+    /**
+     * Sets the value of iconPrefix.
+     *
+     * @param mixed $iconPrefix the icon prefix
+     *
+     * @return self
+     */
+    public function setIconPrefix($iconPrefix)
+    {
+        $this->iconPrefix = $iconPrefix;
+
+        return $this;
     }
 }
