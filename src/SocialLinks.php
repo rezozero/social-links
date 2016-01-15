@@ -26,8 +26,8 @@
 namespace RZ\SocialLinks;
 
 /**
-*
-*/
+ *
+ */
 class SocialLinks
 {
     protected $url;
@@ -63,7 +63,18 @@ class SocialLinks
             $this->status = $this->title . ' — ' . $this->url;
         }
 
-        $this->definitions = array(
+        $this->definitions = $this->buildDefinitions();
+    }
+
+    /**
+     * Build a definition array for all
+     * supported social networks.
+     *
+     * @return array
+     */
+    protected function buildDefinitions()
+    {
+        return array(
             'delicious' => array(
                 'base' => 'http://delicious.com/post',
                 'query' => array(
@@ -201,14 +212,17 @@ class SocialLinks
     }
 
     /**
+     * Get social network share url.
      *
      * @param  string $network
      * @return string
      */
-    public function getLink($network)
+    public function getUrl($network)
     {
-        if (isset($this->definitions[$network])) {
-            # code...
+        if (isset($this->definitions[$network]) &&
+            isset($this->definitions[$network]['base']) &&
+            isset($this->definitions[$network]['query'])) {
+            return $this->definitions[$network]['base'] . "?" . http_build_query($this->definitions[$network]['query']);
         } else {
             throw new \RuntimeException("Social network not found (".$network.")", 1);
         }
