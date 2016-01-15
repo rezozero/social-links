@@ -59,8 +59,6 @@ echo $share->getLink('facebook', $share->getIcon('facebook'));
 // <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook"></i><span class="social-link-name">Facebook</span></a>
 ```
 
-And if you don’t want any icon, don’t be lazy, just `display: none;` it!
-
 ### Single Link with SVG <use> tag
 
 ```php
@@ -71,9 +69,13 @@ echo $share->getLink('facebook', $share->getUseSVG('facebook'));
 // <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
 ```
 
-And if you don’t want any icon, don’t be lazy, just `display: none;` it!
-
 ### A bunch of links with their icons
+
+Without icons:
+
+```php
+echo $share->getLinks(array('facebook', 'twitter', 'linked-in'));
+```
 
 With `<i>` icons:
 
@@ -121,11 +123,12 @@ echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'), ' - ');
 $twig->addExtension(new \RZ\SocialLinks\Twig\SocialLinksExtension());
 ```
 
-`SocialLinksExtension` *Twig* extension introduces 2 new filters to be able 
+`SocialLinksExtension` *Twig* extension introduces 3 new filters to be able 
 to generate your social links without any PHP code.
 
-* `socials_links`
-* `svg_socials_links`
+* `social_links`
+* `icon_social_links`
+* `svg_social_links`
 
 First you’ll need to gather your social data in an associative array or 
 simply `set` a string variable (it will be used as the URL).
@@ -139,19 +142,19 @@ simply `set` a string variable (it will be used as the URL).
 {% set social_data = 'http://www.rezo-zero.com' %}
 ```
 
-Then, you can use one of the 2 *SocialLinks* filters with or without optional
+Then, you can use one of the 3 *SocialLinks* filters with or without optional
 arguments. Selected networks can be set using an array or a simple string.
 
 ```twig
 <nav class="social-links">
-    {{ social_data|socials_links(['facebook', 'twitter']) }}
+    {{ social_data|social_links(['facebook', 'twitter']) }}
 </nav>
 
 <nav class="social-links">
-    {{ social_data|socials_links('twitter') }}
+    {{ social_data|social_links('twitter') }}
 </nav>
 
 <nav class="social-links">
-    {{ social_data|socials_links(['facebook', 'twitter'], 'icon-prefix', 'class-prefix', 'link-classes') }}
+    {{ social_data|icon_social_links(['facebook', 'twitter'], 'icon-prefix', 'class-prefix', 'link-classes') }}
 </nav>
 ```

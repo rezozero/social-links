@@ -329,6 +329,31 @@ class SocialLinks
     }
 
     /**
+     * Get HTML links tags without icon but text
+     * for given social networks.
+     *
+     * @param  array|string  $networks
+     * @param  string $separator
+     * @return string
+     */
+    public function getLinks($networks = array(), $separator = '')
+    {
+        if (is_string($networks)) {
+            return $this->getLink($networks);
+        } elseif (is_array($networks)) {
+            $output = array();
+            foreach ($networks as $network) {
+                if ($this->supports($network)) {
+                    $output[] = $this->getLink($network);
+                }
+            }
+            return implode($separator, $output);
+        }
+
+        return '';
+    }
+
+    /**
      * Get HTML links tags with icon and text
      * for given social networks.
      *

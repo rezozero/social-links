@@ -35,9 +35,41 @@ class SocialLinksExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('socials_links', array($this, 'getSocialLinksWithIcon'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('svg_socials_links', array($this, 'getSocialLinksWithSVG'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('social_links', array($this, 'getSocialLinks'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('icon_social_links', array($this, 'getSocialLinksWithIcon'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('svg_social_links', array($this, 'getSocialLinksWithSVG'), array('is_safe' => array('html'))),
         );
+    }
+
+    /**
+     *
+     * @param  array|string $data
+     * @param  array|string $networks
+     * @param  string $iconPrefix  Default: 'fa'
+     * @param  string $classPrefix Default: 'social-link'
+     * @param  string $linkClasses Default: ''
+     * @return string
+     */
+    public function getSocialLinks(
+        $data,
+        $networks,
+        $iconPrefix = 'fa',
+        $classPrefix = 'social-link',
+        $linkClasses = ''
+    ) {
+        if (is_string($data)) {
+            $data = array(
+                'url' => $data,
+            );
+        } elseif (!is_array($data)) {
+            throw new \Exception("Social links data must be an array or a string", 1);
+        }
+
+        $share = new SocialLinks($data);
+        $share->setLinkClasses($linkClasses);
+        $share->setClassPrefix($classPrefix);
+        $share->setIconPrefix($iconPrefix);
+        return $share->getLinks($networks);
     }
 
     /**
