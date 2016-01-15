@@ -34,6 +34,7 @@ class SocialLinks
     protected $title;
     protected $imageUrl;
     protected $status;
+    protected $linkClasses = '';
     protected $classPrefix = 'social-link';
     protected $iconPrefix = 'fa';
 
@@ -78,7 +79,7 @@ class SocialLinks
     {
         return array(
             'delicious' => array(
-                'base' => 'http://delicious.com/post',
+                'base' => 'https://delicious.com/post',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
@@ -97,9 +98,10 @@ class SocialLinks
                     'body' => $this->status,
                     'subject' => $this->title,
                 ),
+                'icon' => 'envelope'
             ),
             'evernote' => array(
-                'base' => 'http://www.evernote.com/clip.action',
+                'base' => 'https://www.evernote.com/clip.action',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
@@ -155,18 +157,25 @@ class SocialLinks
                     'media' => $this->imageUrl,
                 ),
             ),
-            'get-pocket' => array(
+            'pocket' => array(
                 'base' => 'https://getpocket.com/save',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'icon' => 'get-pocket'
             ),
             'reddit' => array(
                 'base' => 'http://www.reddit.com/submit',
                 'query' => array(
                     'url' => $this->url,
                     'title' => $this->title,
+                ),
+            ),
+            'scoop-it' => array(
+                'base' => 'http://www.scoop.it/bookmarklet',
+                'query' => array(
+                    'url' => $this->url,
                 ),
             ),
             'slashdot' => array(
@@ -183,15 +192,8 @@ class SocialLinks
                     'title' => $this->title,
                 ),
             ),
-            'technorati' => array(
-                'base' => 'http://technorati.com/faves',
-                'query' => array(
-                    'add' => $this->url,
-                    'title' => $this->title,
-                ),
-            ),
             'tumblr' => array(
-                'base' => 'http://www.tumblr.com/share',
+                'base' => 'https://www.tumblr.com/share',
                 'query' => array(
                     'v' => 3,
                     'u' => $this->url,
@@ -199,9 +201,9 @@ class SocialLinks
                 ),
             ),
             'twitter' => array(
-                'base' => 'http://twitter.com/home',
+                'base' => 'https://twitter.com/intent/tweet',
                 'query' => array(
-                    'status' => $this->status,
+                    'text' => $this->status,
                 ),
             ),
             'whatsapp' => array(
@@ -228,7 +230,10 @@ class SocialLinks
         if (isset($this->definitions[$network]) &&
             isset($this->definitions[$network]['base']) &&
             isset($this->definitions[$network]['query'])) {
-            return $this->definitions[$network]['base'] . "?" . http_build_query($this->definitions[$network]['query']);
+
+            $queryString = http_build_query($this->definitions[$network]['query'], '', '&amp;', PHP_QUERY_RFC3986);
+
+            return $this->definitions[$network]['base'] . "?" . $queryString;
         } else {
             throw new \RuntimeException("Social network not found (" . $network . ")", 1);
         }
@@ -248,12 +253,17 @@ class SocialLinks
             throw new \RuntimeException("You must choose a social network", 1);
         }
 
+        $icon = $network;
+        if (isset($this->definitions[$network]['icon'])) {
+            $icon = $this->definitions[$network]['icon'];
+        }
+
         return sprintf(
             '<i class="%s-icon %s %s-%s"></i>',
             $this->classPrefix,
             $this->iconPrefix,
             $this->iconPrefix,
-            $network
+            $icon
         );
     }
 
@@ -271,14 +281,15 @@ class SocialLinks
         }
 
         return sprintf(
-            '<a class="%s %s-%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            '<a class="%s %s %s-%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            $this->linkClasses,
             $this->classPrefix,
             $this->classPrefix,
             $network,
             $this->getUrl($network),
             $this->getIcon($network),
             $this->classPrefix,
-            ucwords($network)
+            ucfirst(str_replace('-', ' ', $network))
         );
     }
 
@@ -371,6 +382,30 @@ class SocialLinks
     public function setIconPrefix($iconPrefix)
     {
         $this->iconPrefix = $iconPrefix;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of linkClasses.
+     *
+     * @return mixed
+     */
+    public function getLinkClasses()
+    {
+        return $this->linkClasses;
+    }
+
+    /**
+     * Sets the value of linkClasses.
+     *
+     * @param mixed $linkClasses the link classes
+     *
+     * @return self
+     */
+    public function setLinkClasses($linkClasses)
+    {
+        $this->linkClasses = $linkClasses;
 
         return $this;
     }

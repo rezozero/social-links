@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/packagist/l/rezozero/social-links.svg?style=flat)
 ![Version](https://img.shields.io/packagist/v/rezozero/social-links.svg?style=flat)
 
-## [Work in progress]
+![Examples using Font awesome and bootstrap](test/examples.png)
 
 ## Usage
 
@@ -61,7 +61,6 @@ echo $share->getLinkWithIcon('facebook');
 *Note that real output string is space-less.* And if you don’t want any icon, don’t be lazy, just `display: none;` it!
 
 ### A bunch of links with their icons
-
 
 ```php
 echo $share->getLinksWithIconForNetworks(array('facebook', 'twitter', 'linkedin'));
