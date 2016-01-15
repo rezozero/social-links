@@ -41,7 +41,7 @@ $share->setClassPrefix('social-link');
 // Use font-awesome icon prefix
 $share->setIconPrefix('fa');
 
-/*$linkHTML = $share->getLinksWithIconForNetworks(array(
+/*$linkHTML = $share->getLinksWithIcon(array(
     'facebook',
     'twitter',
     'linkedin',
@@ -49,7 +49,7 @@ $share->setIconPrefix('fa');
     'whatsapp',
 ));*/
 
-$linkHTML = $share->getLinksWithIconForNetworks($share->getAvailableSocialNetworks());
+$linkHTML = $share->getLinksWithIcon($share->getAvailableSocialNetworks());
 
 ?><!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -77,6 +77,13 @@ $linkHTML = $share->getLinksWithIconForNetworks($share->getAvailableSocialNetwor
             <h1>Social links </h1>
             <hr>
             <nav class="social-links"><?php echo $linkHTML; ?></nav>
+
+            <h2>Available networks</h2>
+            <table class="table">
+            <?php foreach ($share->getAvailableSocialNetworks() as $network): ?>
+            <tr><td><?php echo $network ?></td></tr>
+            <?php endforeach ?>
+            </table>
         </div>
     </body>
 </html>

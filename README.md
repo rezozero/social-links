@@ -34,6 +34,11 @@ $share->setClassPrefix('social-link');
 // Use fa for Font Awesome or an
 // other for a custom icon set.
 $share->setIconPrefix('fa');
+
+// Optional:
+// Set link additional classes, for example
+// to add "btn" bootstrap classes.
+$share->setLinkClasses('btn btn-default');
 ```
 
 ### Single Url
@@ -41,58 +46,71 @@ $share->setIconPrefix('fa');
 ```php
 echo $share->getUrl('twitter');
 
-// http://twitter.com/home?status=Hey%21+Look+at+this+awesome+website.+%E2%80%94+http%3A%2F%2Fwww.rezo-zero.com
+// https://twitter.com/intent/tweet?text=Hey%21%20Look%20at%20this%20awesome%20website.%20%E2%80%94%20http%3A%2F%2Fwww.rezo-zero.com
 ```
 
 ### Single Link with icon
 
 ```php
-echo $share->getLinkWithIcon('facebook');
+$share->setClassPrefix('social-link');
+$share->setIconPrefix('fa');
+echo $share->getLink('facebook', $share->getIcon('facebook'));
 
-// <a class="social-link social-link-facebook" 
-//    target="_blank" 
-//    rel="nofollow" 
-//    href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com">
-//    <i class="social-link-icon fa fa-facebook"></i>
-//    <span class="social-link-name">Facebook</span>
-// </a>
+// <a class=" social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook"></i><span class="social-link-name">Facebook</span></a>
 ```
 
-*Note that real output string is space-less.* And if you don’t want any icon, don’t be lazy, just `display: none;` it!
+And if you don’t want any icon, don’t be lazy, just `display: none;` it!
+
+### Single Link with SVG <use> tag
+
+```php
+$share->setClassPrefix('social-link');
+$share->setIconPrefix('fa');
+echo $share->getLink('facebook', $share->getUseSVG('facebook'));
+
+// <a class=" social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
+```
+
+And if you don’t want any icon, don’t be lazy, just `display: none;` it!
 
 ### A bunch of links with their icons
 
-```php
-echo $share->getLinksWithIconForNetworks(array('facebook', 'twitter', 'linkedin'));
+With `<i>` icons:
 
-//<a class="social-link social-link-facebook" 
-//   target="_blank" 
-//   rel="nofollow" 
-//   href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com">
-//   <i class="social-link-icon fa fa-facebook"></i>
-//   <span class="social-link-name">Facebook</span>
-//</a>
-//<a class="social-link social-link-twitter" 
-//   target="_blank" 
-//   rel="nofollow" 
-//   href="http://twitter.com/home?status=Hey%21+Look+at+this+awesome+website.+%E2%80%94+http%3A%2F%2Fwww.rezo-zero.com">
-//   <i class="social-link-icon fa fa-twitter"></i>
-//   <span class="social-link-name">Twitter</span>
-//</a>
-//<a class="social-link social-link-linkedin" 
-//   target="_blank" 
-//   rel="nofollow" 
-//   href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fwww.rezo-zero.com&title=REZO+ZERO+website+homepage">
-//   <i class="social-link-icon fa fa-linkedin"></i>
-//   <span class="social-link-name">Linkedin</span>
-//</a>
+```php
+echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'));
 ```
 
-*Note that real output string is space-less.*
+With `<svg>` icons:
+
+```php
+echo $share->getLinksWithSVG(array('facebook', 'twitter', 'linked-in'));
+```
 
 You also can choose a not empty separator, i.e. a dash:
 
 ```php
-echo $share->getLinksWithIconForNetworks(array('facebook', 'twitter', 'linkedin'), ' - ');
+echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'), ' - ');
 ```
 
+## Available networks
+
+* delicious
+* digg
+* email
+* evernote
+* facebook
+* friendfeed
+* google
+* google-plus
+* linked-in
+* newsvine
+* pinterest
+* pocket
+* reddit
+* scoop-it
+* slashdot
+* stumbleupon
+* tumblr
+* twitter
+* whatsapp

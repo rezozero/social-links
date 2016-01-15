@@ -98,7 +98,7 @@ class SocialLinks
                     'body' => $this->status,
                     'subject' => $this->title,
                 ),
-                'icon' => 'envelope'
+                'icon' => 'envelope',
             ),
             'evernote' => array(
                 'base' => 'https://www.evernote.com/clip.action',
@@ -134,13 +134,14 @@ class SocialLinks
                     'url' => $this->url,
                 ),
             ),
-            'linkedin' => array(
+            'linked-in' => array(
                 'base' => 'http://www.linkedin.com/shareArticle',
                 'query' => array(
                     'mini' => 'true',
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'icon' => 'linkedin',
             ),
             'newsvine' => array(
                 'base' => 'http://www.newsvine.com/_tools/seed&save',
@@ -163,7 +164,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
-                'icon' => 'get-pocket'
+                'icon' => 'get-pocket',
             ),
             'reddit' => array(
                 'base' => 'http://www.reddit.com/submit',
@@ -244,7 +245,6 @@ class SocialLinks
      * to work with a custom prefix.
      *
      * @param  string $network
-     * @param  string $prefix (default: icon)
      * @return string
      */
     public function getIcon($network)
@@ -254,6 +254,7 @@ class SocialLinks
         }
 
         $icon = $network;
+
         if (isset($this->definitions[$network]['icon'])) {
             $icon = $this->definitions[$network]['icon'];
         }
@@ -268,26 +269,60 @@ class SocialLinks
     }
 
     /**
-     * Get HTML link tag with icon and text
-     * for given social network.
+     * Get a SVG <use> icon tag for social network
+     * to work with a custom prefix.
      *
      * @param  string $network
      * @return string
      */
-    public function getLinkWithIcon($network)
+    public function getUseSVG($network)
     {
         if ($network == '') {
             throw new \RuntimeException("You must choose a social network", 1);
         }
 
+        $icon = $network;
+        if (isset($this->definitions[$network]['icon'])) {
+            $icon = $this->definitions[$network]['icon'];
+        }
+
         return sprintf(
-            '<a class="%s %s %s-%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
-            $this->linkClasses,
+            '<svg class="%s-icon %s %s-%s"><use xlink:href="#%s-%s"></use></svg>',
             $this->classPrefix,
-            $this->classPrefix,
-            $network,
+            $this->iconPrefix,
+            $this->iconPrefix,
+            $icon,
+            $this->iconPrefix,
+            $icon
+        );
+    }
+
+    /**
+     * Get HTML link tag with icon and text
+     * for given social network.
+     *
+     * @param  string $network
+     * @param  string $icon
+     * @return string
+     */
+    public function getLink($network, $icon = '')
+    {
+        if ($network == '') {
+            throw new \RuntimeException("You must choose a social network", 1);
+        }
+
+        $linkClassesMerged = array();
+        if ($this->linkClasses != '') {
+            $linkClassesMerged[] = $this->linkClasses;
+        }
+        $linkClassesMerged[] = $this->classPrefix;
+        $linkClassesMerged[] = $this->classPrefix . '-' . $network;
+
+        return sprintf(
+            '<a class="%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            implode(' ', $linkClassesMerged),
             $this->getUrl($network),
-            $this->getIcon($network),
+            $icon,
             $this->classPrefix,
             ucfirst(str_replace('-', ' ', $network))
         );
@@ -301,18 +336,42 @@ class SocialLinks
      * @param  string $separator
      * @return string
      */
-    public function getLinksWithIconForNetworks($networks = array(), $separator = '')
+    public function getLinksWithIcon($networks = array(), $separator = '')
     {
         if (is_string($networks)) {
-            return $this->getLinkWithIcon($networks);
+            return $this->getLink($networks, $this->getIcon($networks));
         } elseif (is_array($networks)) {
             $output = array();
             foreach ($networks as $network) {
                 if ($this->supports($network)) {
-                    $output[] = $this->getLinkWithIcon($network);
+                    $output[] = $this->getLink($network, $this->getIcon($network));
                 }
             }
+            return implode($separator, $output);
+        }
 
+        return '';
+    }
+
+    /**
+     * Get HTML links tags with svg icon and text
+     * for given social networks.
+     *
+     * @param  array|string  $networks
+     * @param  string $separator
+     * @return string
+     */
+    public function getLinksWithSVG($networks = array(), $separator = '')
+    {
+        if (is_string($networks)) {
+            return $this->getLink($networks, $this->getUseSVG($networks));
+        } elseif (is_array($networks)) {
+            $output = array();
+            foreach ($networks as $network) {
+                if ($this->supports($network)) {
+                    $output[] = $this->getLink($network, $this->getUseSVG($network));
+                }
+            }
             return implode($separator, $output);
         }
 
