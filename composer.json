@@ -1,0 +1,15 @@
+{
+    "name": "rezozero/social-links",
+    "description": "Provide social network url for sharing.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ambroise Maupate",
+            "email": "ambroise@rezo-zero.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"RZ\\SocialLinks\\": "src/"}
+    }
+}
