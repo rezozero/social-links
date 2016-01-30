@@ -30,6 +30,7 @@ $share = new \RZ\SocialLinks\SocialLinks(array(
     'title' => 'REZO ZERO website homepage',
     'status' => 'Hey! Look at this awesome website.',
     'imageUrl' => 'http://www.rezo-zero.com/templates/rezo-zero/img/apple-icon.png',
+    'facebookAppId' => '413692885360287',
 ));
 
 // Use bootstrap classes for links
