@@ -141,7 +141,7 @@ class SocialLinks
                 ),
             ),
             'linked-in' => array(
-                'base' => 'http://www.linkedin.com/shareArticle',
+                'base' => 'https://www.linkedin.com/shareArticle',
                 'query' => array(
                     'mini' => 'true',
                     'url' => $this->url,
