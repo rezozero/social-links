@@ -37,6 +37,7 @@ class SocialLinks
     protected $linkClasses = '';
     protected $classPrefix = 'social-link';
     protected $iconPrefix = 'fa';
+    protected $facebookAppId = null;
 
     /**
      * An array of services and their corresponding share/bookmarking URLs.
@@ -60,6 +61,9 @@ class SocialLinks
         if (!empty($data['imageUrl'])) {
             $this->imageUrl = $data['imageUrl'];
         }
+        if (!empty($data['facebookAppId'])) {
+            $this->facebookAppId = $data['facebookAppId'];
+        }
         if (!empty($data['status'])) {
             $this->status = $data['status'] . ' — ' . $this->url;
         } else {
@@ -77,7 +81,7 @@ class SocialLinks
      */
     protected function buildDefinitions()
     {
-        return array(
+        $definitions = array(
             'delicious' => array(
                 'base' => 'https://delicious.com/post',
                 'query' => array(
@@ -111,6 +115,8 @@ class SocialLinks
                 'base' => 'https://www.facebook.com/sharer/sharer.php',
                 'query' => array(
                     'u' => $this->url,
+                    't' => $this->title,
+                    'app_id' => $this->facebookAppId,
                 ),
             ),
             'friendfeed' => array(
@@ -214,6 +220,24 @@ class SocialLinks
                 ),
             ),
         );
+
+        /*
+         * Use facebook better Dialog feed if a
+         * facebook App Id is given.
+         */
+        if ($this->facebookAppId != "") {
+            $definitions['facebook'] = array(
+                'base' => 'https://www.facebook.com/dialog/feed',
+                'query' => array(
+                    'link' => $this->url,
+                    'name' => $this->title,
+                    'app_id' => $this->facebookAppId,
+                    'redirect_uri' => $this->url,
+                ),
+            );
+        }
+
+        return $definitions;
     }
 
     /**
@@ -232,7 +256,7 @@ class SocialLinks
             isset($this->definitions[$network]['base']) &&
             isset($this->definitions[$network]['query'])) {
 
-            $queryString = http_build_query($this->definitions[$network]['query'], '', '&amp;', PHP_QUERY_RFC3986);
+            $queryString = http_build_query(array_filter($this->definitions[$network]['query']), '', '&amp;', PHP_QUERY_RFC3986);
 
             return $this->definitions[$network]['base'] . "?" . $queryString;
         } else {

@@ -101,7 +101,7 @@ echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'), ' - ');
 * digg
 * email
 * evernote
-* facebook
+* facebook (*sharer* by default, or */dialog/feed* if you provide a `facebookAppId`)
 * friendfeed
 * google
 * google-plus
