@@ -235,6 +235,9 @@ class SocialLinks
                     'redirect_uri' => $this->url,
                 ),
             );
+            if ($this->imageUrl != "") {
+                $definitions['facebook']['query']['picture'] = $this->imageUrl;
+            }
         }
 
         return $definitions;
