@@ -21,7 +21,7 @@ output settings.
 $share = new \RZ\SocialLinks\SocialLinks(array(
     'url' => 'http://www.rezo-zero.com',
     'title' => 'REZO ZERO website homepage',
-    // Optional image source url for pinterest
+    // Optional image source url for pinterest. must be at least 200px by 200px, if you intent to use for facebook
     'imageUrl' => 'http://www.rezo-zero.com/templates/rezo-zero/img/apple-icon.png',
     // Optional status for overriding title for twitter, whatsapp and emails body
     'status' => 'Hey! Look at this awesome website.'
