@@ -56,7 +56,7 @@ $share->setClassPrefix('social-link');
 $share->setIconPrefix('fa');
 echo $share->getLink('facebook', $share->getIcon('facebook'));
 
-// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook"></i><span class="social-link-name">Facebook</span></a>
+// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><i class="social-link-icon fa fa-facebook-official"></i><span class="social-link-name">Facebook</span></a>
 ```
 
 ### Single Link with SVG <use> tag
@@ -66,7 +66,7 @@ $share->setClassPrefix('social-link');
 $share->setIconPrefix('fa');
 echo $share->getLink('facebook', $share->getUseSVG('facebook'));
 
-// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
+// <a class="social-link social-link-facebook" target="_blank" rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.rezo-zero.com"><svg class="social-link-icon fa fa-facebook-official"><use xlink:href="#fa-facebook"></use></svg><span class="social-link-name">Facebook</span></a>
 ```
 
 ### A bunch of links with their icons
@@ -101,7 +101,7 @@ echo $share->getLinksWithIcon(array('facebook', 'twitter', 'linked-in'), ' - ');
 * digg
 * email
 * evernote
-* facebook (*sharer* by default, or */dialog/feed* if you provide a `facebookAppId`)
+* facebook (*sharer* by default, or */dialog/feed* if you provide a `facebookAppId`), if you use default *font-awesome* icon prefix, icon class will be `facebook-official`. It’s still `facebook` for SVG icons or *non font-awesome* prefix.
 * friendfeed
 * google
 * google-plus
