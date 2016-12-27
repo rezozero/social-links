@@ -118,6 +118,7 @@ class SocialLinks
                     't' => $this->title,
                     'app_id' => $this->facebookAppId,
                 ),
+                'fontawesome' => 'facebook-official',
             ),
             'friendfeed' => array(
                 'base' => 'http://www.friendfeed.com/share',
@@ -135,12 +136,14 @@ class SocialLinks
                 ),
             ),
             'google-plus' => array(
+                'display_title' => 'Google +',
                 'base' => 'https://plus.google.com/share',
                 'query' => array(
                     'url' => $this->url,
                 ),
             ),
             'linked-in' => array(
+                'display_title' => 'LinkedIn',
                 'base' => 'https://www.linkedin.com/shareArticle',
                 'query' => array(
                     'mini' => 'true',
@@ -180,6 +183,7 @@ class SocialLinks
                 ),
             ),
             'scoop-it' => array(
+                'display_title' => 'Scoop.It!',
                 'base' => 'http://www.scoop.it/bookmarklet',
                 'query' => array(
                     'url' => $this->url,
@@ -234,7 +238,11 @@ class SocialLinks
                     'app_id' => $this->facebookAppId,
                     'redirect_uri' => $this->url,
                 ),
+                'fontawesome' => 'facebook-official',
             );
+            if ($this->imageUrl != "") {
+                $definitions['facebook']['query']['picture'] = $this->imageUrl;
+            }
         }
 
         return $definitions;
@@ -281,6 +289,15 @@ class SocialLinks
 
         if (isset($this->definitions[$network]['icon'])) {
             $icon = $this->definitions[$network]['icon'];
+        }
+
+        /*
+         * Use real font-awesone icon name
+         * if using FA prefix.
+         */
+        if ($this->iconPrefix == 'fa' &&
+            !empty($this->definitions[$network]['fontawesome'])) {
+            $icon = $this->definitions[$network]['fontawesome'];
         }
 
         return sprintf(
@@ -348,8 +365,22 @@ class SocialLinks
             $this->getUrl($network),
             $icon,
             $this->classPrefix,
-            ucfirst(str_replace('-', ' ', $network))
+            $this->getNetworkDisplayTitle($network)
         );
+    }
+
+    /**
+     * Returns network display title to populate button and links labels.
+     *
+     * @param string $network
+     * @return string
+     */
+    public function getNetworkDisplayTitle($network)
+    {
+        if (!empty($this->definitions[$network]['display_title'])) {
+            return $this->definitions[$network]['display_title'];
+        }
+        return ucfirst(str_replace('-', ' ', $network));
     }
 
     /**

@@ -45,10 +45,11 @@ class SocialLinksExtension extends \Twig_Extension
      *
      * @param  array|string $data
      * @param  array|string $networks
-     * @param  string $iconPrefix  Default: 'fa'
+     * @param  string $iconPrefix Default: 'fa'
      * @param  string $classPrefix Default: 'social-link'
      * @param  string $linkClasses Default: ''
      * @return string
+     * @throws \Exception
      */
     public function getSocialLinks(
         $data,
@@ -76,10 +77,11 @@ class SocialLinksExtension extends \Twig_Extension
      *
      * @param  array|string $data
      * @param  array|string $networks
-     * @param  string $iconPrefix  Default: 'fa'
+     * @param  string $iconPrefix Default: 'fa'
      * @param  string $classPrefix Default: 'social-link'
      * @param  string $linkClasses Default: ''
      * @return string
+     * @throws \Exception
      */
     public function getSocialLinksWithIcon(
         $data,
@@ -107,10 +109,11 @@ class SocialLinksExtension extends \Twig_Extension
      *
      * @param  array|string $data
      * @param  array|string $networks
-     * @param  string $iconPrefix  Default: 'fa'
+     * @param  string $iconPrefix Default: 'fa'
      * @param  string $classPrefix Default: 'social-link'
      * @param  string $linkClasses Default: ''
      * @return string
+     * @throws \Exception
      */
     public function getSocialLinksWithSVG(
         $data,
