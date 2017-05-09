@@ -38,7 +38,32 @@ class SocialLinksExtension extends \Twig_Extension
             new \Twig_SimpleFilter('social_links', array($this, 'getSocialLinks'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('icon_social_links', array($this, 'getSocialLinksWithIcon'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('svg_social_links', array($this, 'getSocialLinksWithSVG'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('tweet_links', array($this, 'parseTweetLinks'), array('is_safe' => array('html'))),
         );
+    }
+
+    /**
+     * @param $string
+     * @return mixed
+     */
+    public function parseTweetLinks($string)
+    {
+        $string = preg_replace(
+            "@(https?://([-\w\.]+)+(/([\w/_\.]*(\?\S+)?(#\S+)?)?)?)@",
+            '<a rel="nofollow" target="_blank" href="$1">$1</a>',
+            $string
+        );
+        $string = preg_replace(
+            "/@(\w+)/",
+            ' <a rel="nofollow" target="_blank" href="http://twitter.com/$1">@$1</a>',
+            $string
+        );
+        $string = preg_replace(
+            "/\s+#(\w+)/",
+            ' <a rel="nofollow" target="_blank" href="http://twitter.com/search?q=%23$1">#$1</a>',
+            $string
+        );
+        return $string;
     }
 
     /**
@@ -137,6 +162,9 @@ class SocialLinksExtension extends \Twig_Extension
         return $share->getLinksWithSVG($networks);
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'social_links_extension';

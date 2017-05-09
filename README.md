@@ -129,6 +129,7 @@ to generate your social links without any PHP code.
 * `social_links`
 * `icon_social_links`
 * `svg_social_links`
+* `tweet_links`
 
 First you’ll need to gather your social data in an associative array or 
 simply `set` a string variable (it will be used as the URL).
@@ -158,3 +159,5 @@ arguments. Selected networks can be set using an array or a simple string.
     {{ social_data|icon_social_links(['facebook', 'twitter'], 'icon-prefix', 'class-prefix', 'link-classes') }}
 </nav>
 ```
+
+Bonus: `tweet_links` is a Twig filter to parse your tweets contents.
