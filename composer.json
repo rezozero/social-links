@@ -8,7 +8,9 @@
             "email": "ambroise@rezo-zero.com"
         }
     ],
-    "require": {},
+    "require": {
+        "twig/twig": "1.*|2.*"
+    },
     "autoload": {
         "psr-4": {"RZ\\SocialLinks\\": "src/"}
     }
