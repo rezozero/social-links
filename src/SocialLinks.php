@@ -38,6 +38,7 @@ class SocialLinks
     protected $classPrefix = 'social-link';
     protected $iconPrefix = 'fa';
     protected $facebookAppId = null;
+    protected $shareActionLabel = 'Share on %s';
 
     /**
      * An array of services and their corresponding share/bookmarking URLs.
@@ -301,7 +302,7 @@ class SocialLinks
         }
 
         return sprintf(
-            '<i class="%s-icon %s %s-%s"></i>',
+            '<i aria-hidden="true" class="%s-icon %s %s-%s"></i>',
             $this->classPrefix,
             $this->iconPrefix,
             $this->iconPrefix,
@@ -328,7 +329,7 @@ class SocialLinks
         }
 
         return sprintf(
-            '<svg class="%s-icon %s %s-%s"><use xlink:href="#%s-%s"></use></svg>',
+            '<svg aria-hidden="true" class="%s-icon %s %s-%s"><use xlink:href="#%s-%s"></use></svg>',
             $this->classPrefix,
             $this->iconPrefix,
             $this->iconPrefix,
@@ -360,7 +361,8 @@ class SocialLinks
         $linkClassesMerged[] = $this->classPrefix . '-' . $network;
 
         return sprintf(
-            '<a class="%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            '<a title="%s" class="%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            $this->getNetworkShareActionLabel($network),
             implode(' ', $linkClassesMerged),
             $this->getUrl($network),
             $icon,
@@ -381,6 +383,16 @@ class SocialLinks
             return $this->definitions[$network]['display_title'];
         }
         return ucfirst(str_replace('-', ' ', $network));
+    }
+
+    /**
+     * @param $network
+     *
+     * @return string Return the action label for accessibility matters.
+     */
+    public function getNetworkShareActionLabel($network)
+    {
+        return sprintf($this->getShareActionLabel(), $this->getNetworkDisplayTitle($network));
     }
 
     /**
@@ -545,6 +557,26 @@ class SocialLinks
     public function setLinkClasses($linkClasses)
     {
         $this->linkClasses = $linkClasses;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShareActionLabel()
+    {
+        return $this->shareActionLabel;
+    }
+
+    /**
+     * @param string $shareActionLabel
+     *
+     * @return SocialLinks
+     */
+    public function setShareActionLabel($shareActionLabel)
+    {
+        $this->shareActionLabel = $shareActionLabel;
 
         return $this;
     }

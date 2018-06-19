@@ -156,8 +156,30 @@ arguments. Selected networks can be set using an array or a simple string.
 </nav>
 
 <nav class="social-links">
-    {{ social_data|icon_social_links(['facebook', 'twitter'], 'icon-prefix', 'class-prefix', 'link-classes') }}
+    {{ social_data|icon_social_links(
+        ['facebook', 'twitter'], 
+        'icon-prefix', 
+        'class-prefix', 
+        'link-classes', 
+        'Share on %s'
+    ) }}
 </nav>
 ```
 
 Bonus: `tweet_links` is a Twig filter to parse your tweets contents.
+
+## Translate share action label
+
+We introduced `shareActionLabel` argument to provide `title` for accessibility on your social links. You can override it in your own *Twig* template to change the `title` and translate it:
+
+```twig
+<nav class="social-links">
+    {{ social_data|icon_social_links(
+        ['facebook', 'twitter'], 
+        'icon-prefix', 
+        'class-prefix', 
+        'link-classes', 
+        ('share_on_%s'|trans)
+    ) }}
+</nav>
+```
