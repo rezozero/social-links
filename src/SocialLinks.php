@@ -361,7 +361,7 @@ class SocialLinks
         $linkClassesMerged[] = $this->classPrefix . '-' . $network;
 
         return sprintf(
-            '<a title="%s" class="%s" target="_blank" rel="nofollow" href="%s">%s<span class="%s-name">%s</span></a>',
+            '<a title="%s" class="%s" target="_blank" rel="nofollow noopener" href="%s">%s<span class="%s-name">%s</span></a>',
             $this->getNetworkShareActionLabel($network),
             implode(' ', $linkClassesMerged),
             $this->getUrl($network),

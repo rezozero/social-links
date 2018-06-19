@@ -50,17 +50,17 @@ class SocialLinksExtension extends \Twig_Extension
     {
         $string = preg_replace(
             "@(https?://([-\w\.]+)+(/([\w/_\.]*(\?\S+)?(#\S+)?)?)?)@",
-            '<a rel="nofollow" target="_blank" href="$1">$1</a>',
+            '<a rel="nofollow noopener" target="_blank" href="$1">$1</a>',
             $string
         );
         $string = preg_replace(
             "/@(\w+)/",
-            ' <a rel="nofollow" target="_blank" href="http://twitter.com/$1">@$1</a>',
+            ' <a rel="nofollow noopener" target="_blank" href="http://twitter.com/$1">@$1</a>',
             $string
         );
         $string = preg_replace(
             "/\s+#(\w+)/",
-            ' <a rel="nofollow" target="_blank" href="http://twitter.com/search?q=%23$1">#$1</a>',
+            ' <a rel="nofollow noopener" target="_blank" href="http://twitter.com/search?q=%23$1">#$1</a>',
             $string
         );
         return $string;
