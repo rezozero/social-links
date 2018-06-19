@@ -1,6 +1,7 @@
 {
     "name": "rezozero/social-links",
     "description": "Provide social network url for sharing.",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
