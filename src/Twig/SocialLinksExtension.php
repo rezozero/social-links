@@ -67,12 +67,13 @@ class SocialLinksExtension extends \Twig_Extension
     }
 
     /**
+     * @param array|string $data
+     * @param array|string $networks
+     * @param string $iconPrefix Default: 'fa'
+     * @param string $classPrefix Default: 'social-link'
+     * @param string $linkClasses Default: ''
+     * @param string $shareActionLabel
      *
-     * @param  array|string $data
-     * @param  array|string $networks
-     * @param  string $iconPrefix Default: 'fa'
-     * @param  string $classPrefix Default: 'social-link'
-     * @param  string $linkClasses Default: ''
      * @return string
      * @throws \Exception
      */
@@ -81,7 +82,8 @@ class SocialLinksExtension extends \Twig_Extension
         $networks,
         $iconPrefix = 'fa',
         $classPrefix = 'social-link',
-        $linkClasses = ''
+        $linkClasses = '',
+        $shareActionLabel = 'Share on %s'
     ) {
         if (is_string($data)) {
             $data = array(
@@ -95,16 +97,18 @@ class SocialLinksExtension extends \Twig_Extension
         $share->setLinkClasses($linkClasses);
         $share->setClassPrefix($classPrefix);
         $share->setIconPrefix($iconPrefix);
+        $share->setShareActionLabel($shareActionLabel);
         return $share->getLinks($networks);
     }
 
     /**
+     * @param array|string $data
+     * @param array|string $networks
+     * @param string $iconPrefix Default: 'fa'
+     * @param string $classPrefix Default: 'social-link'
+     * @param string $linkClasses Default: ''
+     * @param string $shareActionLabel
      *
-     * @param  array|string $data
-     * @param  array|string $networks
-     * @param  string $iconPrefix Default: 'fa'
-     * @param  string $classPrefix Default: 'social-link'
-     * @param  string $linkClasses Default: ''
      * @return string
      * @throws \Exception
      */
@@ -113,7 +117,8 @@ class SocialLinksExtension extends \Twig_Extension
         $networks,
         $iconPrefix = 'fa',
         $classPrefix = 'social-link',
-        $linkClasses = ''
+        $linkClasses = '',
+        $shareActionLabel = 'Share on %s'
     ) {
         if (is_string($data)) {
             $data = array(
@@ -127,16 +132,18 @@ class SocialLinksExtension extends \Twig_Extension
         $share->setLinkClasses($linkClasses);
         $share->setClassPrefix($classPrefix);
         $share->setIconPrefix($iconPrefix);
+        $share->setShareActionLabel($shareActionLabel);
         return $share->getLinksWithIcon($networks);
     }
 
     /**
+     * @param array|string $data
+     * @param array|string $networks
+     * @param string $iconPrefix Default: 'fa'
+     * @param string $classPrefix Default: 'social-link'
+     * @param string $linkClasses Default: ''
+     * @param string $shareActionLabel
      *
-     * @param  array|string $data
-     * @param  array|string $networks
-     * @param  string $iconPrefix Default: 'fa'
-     * @param  string $classPrefix Default: 'social-link'
-     * @param  string $linkClasses Default: ''
      * @return string
      * @throws \Exception
      */
@@ -145,7 +152,8 @@ class SocialLinksExtension extends \Twig_Extension
         $networks,
         $iconPrefix = 'fa',
         $classPrefix = 'social-link',
-        $linkClasses = ''
+        $linkClasses = '',
+        $shareActionLabel = 'Share on %s'
     ) {
         if (is_string($data)) {
             $data = array(
@@ -159,6 +167,7 @@ class SocialLinksExtension extends \Twig_Extension
         $share->setLinkClasses($linkClasses);
         $share->setClassPrefix($classPrefix);
         $share->setIconPrefix($iconPrefix);
+        $share->setShareActionLabel($shareActionLabel);
         return $share->getLinksWithSVG($networks);
     }
 
