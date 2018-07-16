@@ -26,20 +26,22 @@
 namespace RZ\SocialLinks\Twig;
 
 use RZ\SocialLinks\SocialLinks;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Provide a handy twig extension to use SocialLinks.
  */
-class SocialLinksExtension extends \Twig_Extension
+class SocialLinksExtension extends AbstractExtension
 {
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('social_links', array($this, 'getSocialLinks'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('icon_social_links', array($this, 'getSocialLinksWithIcon'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('svg_social_links', array($this, 'getSocialLinksWithSVG'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFilter('tweet_links', array($this, 'parseTweetLinks'), array('is_safe' => array('html'))),
-        );
+        return [
+            new TwigFilter('social_links', [$this, 'getSocialLinks'], ['is_safe' => ['html']]),
+            new TwigFilter('icon_social_links', [$this, 'getSocialLinksWithIcon'], ['is_safe' => ['html']]),
+            new TwigFilter('svg_social_links', [$this, 'getSocialLinksWithSVG'], ['is_safe' => ['html']]),
+            new TwigFilter('tweet_links', [$this, 'parseTweetLinks'], ['is_safe' => ['html']]),
+        ];
     }
 
     /**
@@ -169,13 +171,5 @@ class SocialLinksExtension extends \Twig_Extension
         $share->setIconPrefix($iconPrefix);
         $share->setShareActionLabel($shareActionLabel);
         return $share->getLinksWithSVG($networks);
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'social_links_extension';
     }
 }
