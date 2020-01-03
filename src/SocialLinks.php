@@ -35,6 +35,7 @@ class SocialLinks
     protected $imageUrl;
     protected $status;
     protected $linkClasses = '';
+    protected $svgUrl = '';
     protected $classPrefix = 'social-link';
     protected $iconPrefix = 'fa';
     protected $facebookAppId = null;
@@ -329,11 +330,12 @@ class SocialLinks
         }
 
         return sprintf(
-            '<svg aria-hidden="true" class="%s-icon %s %s-%s"><use xlink:href="#%s-%s"></use></svg>',
+            '<svg aria-hidden="true" class="%s-icon %s %s-%s"><use xlink:href="%s#%s-%s"></use></svg>',
             $this->classPrefix,
             $this->iconPrefix,
             $this->iconPrefix,
             $icon,
+            $this->svgUrl,
             $this->iconPrefix,
             $icon
         );
@@ -533,6 +535,30 @@ class SocialLinks
     public function setIconPrefix($iconPrefix)
     {
         $this->iconPrefix = $iconPrefix;
+
+        return $this;
+    }
+
+    /**
+     * Gets the value of svgUrl.
+     *
+     * @return mixed
+     */
+    public function getSvgUrl()
+    {
+        return $this->svgUrl;
+    }
+
+    /**
+     * Sets the value of svgUrl.
+     *
+     * @param mixed $svgUrl the icon prefix
+     *
+     * @return self
+     */
+    public function setSvgUrl($svgUrl)
+    {
+        $this->svgUrl = $svgUrl;
 
         return $this;
     }
