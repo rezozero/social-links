@@ -155,7 +155,8 @@ class SocialLinksExtension extends AbstractExtension
         $iconPrefix = 'fa',
         $classPrefix = 'social-link',
         $linkClasses = '',
-        $shareActionLabel = 'Share on %s'
+        $shareActionLabel = 'Share on %s',
+        $svgUrl = ''
     ) {
         if (is_string($data)) {
             $data = array(
@@ -170,6 +171,7 @@ class SocialLinksExtension extends AbstractExtension
         $share->setClassPrefix($classPrefix);
         $share->setIconPrefix($iconPrefix);
         $share->setShareActionLabel($shareActionLabel);
+        $share->setSvgUrl($svgUrl);
         return $share->getLinksWithSVG($networks);
     }
 }
