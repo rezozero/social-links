@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015, Ambroise Maupate
+ * Copyright © 2023, Ambroise Maupate
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ use Twig\TwigFilter;
  */
 class SocialLinksExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('social_links', [$this, 'getSocialLinks'], ['is_safe' => ['html']]),
@@ -45,10 +45,10 @@ class SocialLinksExtension extends AbstractExtension
     }
 
     /**
-     * @param $string
-     * @return mixed
+     * @param string $string
+     * @return string
      */
-    public function parseTweetLinks($string)
+    public function parseTweetLinks(string $string): string
     {
         $string = preg_replace(
             "@(https?://([-\w\.]+)+(/([\w/_\.]*(\?\S+)?(#\S+)?)?)?)@",
@@ -60,17 +60,16 @@ class SocialLinksExtension extends AbstractExtension
             ' <a rel="nofollow noopener" target="_blank" href="http://twitter.com/$1">@$1</a>',
             $string
         );
-        $string = preg_replace(
+        return preg_replace(
             "/\s+#(\w+)/",
             ' <a rel="nofollow noopener" target="_blank" href="http://twitter.com/search?q=%23$1">#$1</a>',
             $string
         );
-        return $string;
     }
 
     /**
-     * @param array|string $data
-     * @param array|string $networks
+     * @param array<string, string>|string $data
+     * @param array<string>|string $networks
      * @param string $iconPrefix Default: 'fa'
      * @param string $classPrefix Default: 'social-link'
      * @param string $linkClasses Default: ''
@@ -82,16 +81,16 @@ class SocialLinksExtension extends AbstractExtension
     public function getSocialLinks(
         $data,
         $networks,
-        $iconPrefix = 'fa',
-        $classPrefix = 'social-link',
-        $linkClasses = '',
-        $shareActionLabel = 'Share on %s'
-    ) {
-        if (is_string($data)) {
+        string $iconPrefix = 'fa',
+        string $classPrefix = 'social-link',
+        string $linkClasses = '',
+        string $shareActionLabel = 'Share on %s'
+    ): string {
+        if (\is_string($data)) {
             $data = array(
                 'url' => $data,
             );
-        } elseif (!is_array($data)) {
+        } elseif (!\is_array($data)) {
             throw new \Exception("Social links data must be an array or a string", 1);
         }
 
@@ -104,8 +103,8 @@ class SocialLinksExtension extends AbstractExtension
     }
 
     /**
-     * @param array|string $data
-     * @param array|string $networks
+     * @param array<string, string>|string $data
+     * @param array<string>|string $networks
      * @param string $iconPrefix Default: 'fa'
      * @param string $classPrefix Default: 'social-link'
      * @param string $linkClasses Default: ''
@@ -117,12 +116,12 @@ class SocialLinksExtension extends AbstractExtension
     public function getSocialLinksWithIcon(
         $data,
         $networks,
-        $iconPrefix = 'fa',
-        $classPrefix = 'social-link',
-        $linkClasses = '',
-        $shareActionLabel = 'Share on %s'
-    ) {
-        if (is_string($data)) {
+        string $iconPrefix = 'fa',
+        string $classPrefix = 'social-link',
+        string $linkClasses = '',
+        string $shareActionLabel = 'Share on %s'
+    ): string {
+        if (\is_string($data)) {
             $data = array(
                 'url' => $data,
             );
@@ -139,30 +138,30 @@ class SocialLinksExtension extends AbstractExtension
     }
 
     /**
-     * @param array|string $data
-     * @param array|string $networks
+     * @param array<string, string>|string $data
+     * @param array<string>|string $networks
      * @param string $iconPrefix Default: 'fa'
      * @param string $classPrefix Default: 'social-link'
      * @param string $linkClasses Default: ''
      * @param string $shareActionLabel
-     *
+     * @param string $svgUrl
      * @return string
      * @throws \Exception
      */
     public function getSocialLinksWithSVG(
         $data,
         $networks,
-        $iconPrefix = 'fa',
-        $classPrefix = 'social-link',
-        $linkClasses = '',
-        $shareActionLabel = 'Share on %s',
-        $svgUrl = ''
-    ) {
-        if (is_string($data)) {
+        string $iconPrefix = 'fa',
+        string $classPrefix = 'social-link',
+        string $linkClasses = '',
+        string $shareActionLabel = 'Share on %s',
+        string $svgUrl = ''
+    ): string {
+        if (\is_string($data)) {
             $data = array(
                 'url' => $data,
             );
-        } elseif (!is_array($data)) {
+        } elseif (!\is_array($data)) {
             throw new \Exception("Social links data must be an array or a string", 1);
         }
 

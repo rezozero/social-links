@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015, Ambroise Maupate
+ * Copyright © 2023, Ambroise Maupate
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,34 +25,31 @@
  */
 namespace RZ\SocialLinks;
 
-/**
- *
- */
 class SocialLinks
 {
-    protected $url;
-    protected $title;
-    protected $imageUrl;
-    protected $status;
-    protected $linkClasses = '';
-    protected $svgUrl = '';
-    protected $classPrefix = 'social-link';
-    protected $iconPrefix = 'fa';
-    protected $facebookAppId = null;
-    protected $shareActionLabel = 'Share on %s';
+    protected ?string $url = null;
+    protected ?string $title = null;
+    protected string $imageUrl = '';
+    protected ?string $status = null;
+    protected string $linkClasses = '';
+    protected string $svgUrl = '';
+    protected string $classPrefix = 'social-link';
+    protected string $iconPrefix = 'fa';
+    protected ?string $facebookAppId = null;
+    protected string $shareActionLabel = 'Share on %s';
 
     /**
      * An array of services and their corresponding share/bookmarking URLs.
      *
      * @see drmonkeyninja/cakephp-social-share <https://github.com/drmonkeyninja/cakephp-social-share/blob/master/src/View/Helper/SocialShareHelper.php>
-     * @var array
+     * @var array<string, array<string, mixed>>
      */
-    protected $definitions = array();
+    protected array $definitions = [];
 
     /**
-     * @param array $data
+     * @param array<string, string|int> $data
      */
-    public function __construct($data = array())
+    public function __construct(array $data = [])
     {
         if (!empty($data['url'])) {
             $this->url = $data['url'];
@@ -79,9 +76,9 @@ class SocialLinks
      * Build a definition array for all
      * supported social networks.
      *
-     * @return array
+     * @return array<string, array<string, mixed>>
      */
-    protected function buildDefinitions()
+    protected function buildDefinitions(): array
     {
         $definitions = array(
             'delicious' => array(
@@ -90,6 +87,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-delicious',
             ),
             'digg' => array(
                 'base' => 'http://digg.com/submit',
@@ -97,6 +95,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-digg',
             ),
             'email' => array(
                 'base' => 'mailto:',
@@ -105,6 +104,7 @@ class SocialLinks
                     'subject' => $this->title,
                 ),
                 'icon' => 'envelope',
+                'fontawesome' => 'fa-regular fa-envelope',
             ),
             'evernote' => array(
                 'base' => 'https://www.evernote.com/clip.action',
@@ -112,6 +112,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-evernote',
             ),
             'facebook' => array(
                 'base' => 'https://www.facebook.com/sharer/sharer.php',
@@ -120,14 +121,7 @@ class SocialLinks
                     't' => $this->title,
                     'app_id' => $this->facebookAppId,
                 ),
-                'fontawesome' => 'facebook-official',
-            ),
-            'friendfeed' => array(
-                'base' => 'http://www.friendfeed.com/share',
-                'query' => array(
-                    'url' => $this->url,
-                    'title' => $this->title,
-                ),
+                'fontawesome' => 'fa-brands fa-square-facebook',
             ),
             'google' => array(
                 'base' => 'http://www.google.com/bookmarks/mark',
@@ -136,6 +130,7 @@ class SocialLinks
                     'bkmk' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-google',
             ),
             'google-plus' => array(
                 'display_title' => 'Google +',
@@ -143,6 +138,7 @@ class SocialLinks
                 'query' => array(
                     'url' => $this->url,
                 ),
+                'fontawesome' => 'fa-brands fa-square-google-plus',
             ),
             'linked-in' => array(
                 'display_title' => 'LinkedIn',
@@ -153,13 +149,19 @@ class SocialLinks
                     'title' => $this->title,
                 ),
                 'icon' => 'linkedin',
+                'fontawesome' => 'fa-brands fa-linkedin',
             ),
-            'newsvine' => array(
-                'base' => 'http://www.newsvine.com/_tools/seed&save',
+            // Other spelling for linked-in
+            'linkedin' => array(
+                'display_title' => 'LinkedIn',
+                'base' => 'https://www.linkedin.com/shareArticle',
                 'query' => array(
-                    'u' => $this->url,
-                    'h' => $this->title,
+                    'mini' => 'true',
+                    'url' => $this->url,
+                    'title' => $this->title,
                 ),
+                'icon' => 'linkedin',
+                'fontawesome' => 'fa-brands fa-linkedin',
             ),
             'pinterest' => array(
                 'base' => 'http://www.pinterest.com/pin/create/button/',
@@ -168,6 +170,7 @@ class SocialLinks
                     'description' => $this->title,
                     'media' => $this->imageUrl,
                 ),
+                'fontawesome' => 'fa-brands fa-pinterest',
             ),
             'pocket' => array(
                 'base' => 'https://getpocket.com/save',
@@ -176,6 +179,7 @@ class SocialLinks
                     'title' => $this->title,
                 ),
                 'icon' => 'get-pocket',
+                'fontawesome' => 'fa-brands fa-get-pocket',
             ),
             'reddit' => array(
                 'base' => 'http://www.reddit.com/submit',
@@ -183,6 +187,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-reddit',
             ),
             'scoop-it' => array(
                 'display_title' => 'Scoop.It!',
@@ -204,6 +209,7 @@ class SocialLinks
                     'url' => $this->url,
                     'title' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-stumbleupon',
             ),
             'tumblr' => array(
                 'base' => 'https://www.tumblr.com/share',
@@ -212,18 +218,21 @@ class SocialLinks
                     'u' => $this->url,
                     't' => $this->title,
                 ),
+                'fontawesome' => 'fa-brands fa-square-tumblr',
             ),
             'twitter' => array(
                 'base' => 'https://twitter.com/intent/tweet',
                 'query' => array(
                     'text' => $this->status,
                 ),
+                'fontawesome' => 'fa-brands fa-x-twitter',
             ),
             'whatsapp' => array(
                 'base' => 'whatsapp://send',
                 'query' => array(
                     'text' => $this->status,
                 ),
+                'fontawesome' => 'fa-brands fa-whatsapp',
             ),
         );
 
@@ -240,7 +249,7 @@ class SocialLinks
                     'app_id' => $this->facebookAppId,
                     'redirect_uri' => $this->url,
                 ),
-                'fontawesome' => 'facebook-official',
+                'fontawesome' => 'fa-brands fa-square-facebook',
             );
             if ($this->imageUrl != "") {
                 $definitions['facebook']['query']['picture'] = $this->imageUrl;
@@ -256,18 +265,19 @@ class SocialLinks
      * @param  string $network
      * @return string
      */
-    public function getUrl($network)
+    public function getUrl(string $network): string
     {
         if ($network == '') {
             throw new \RuntimeException("You must choose a social network", 1);
         }
 
-        if (isset($this->definitions[$network]) &&
-            isset($this->definitions[$network]['base']) &&
-            isset($this->definitions[$network]['query'])) {
-
-            $queryString = http_build_query(array_filter($this->definitions[$network]['query']), '', '&amp;', PHP_QUERY_RFC3986);
-
+        if (isset($this->definitions[$network]['query']) && isset($this->definitions[$network]['base'])) {
+            $queryString = http_build_query(
+                array_filter($this->definitions[$network]['query']),
+                '',
+                '&amp;',
+                PHP_QUERY_RFC3986
+            );
             return $this->definitions[$network]['base'] . "?" . $queryString;
         } else {
             throw new \RuntimeException("Social network not found (" . $network . ")", 1);
@@ -281,7 +291,7 @@ class SocialLinks
      * @param  string $network
      * @return string
      */
-    public function getIcon($network)
+    public function getIcon(string $network): string
     {
         if ($network == '') {
             throw new \RuntimeException("You must choose a social network", 1);
@@ -294,12 +304,19 @@ class SocialLinks
         }
 
         /*
-         * Use real font-awesone icon name
+         * Use real font-awesome icon name
          * if using FA prefix.
          */
         if ($this->iconPrefix == 'fa' &&
             !empty($this->definitions[$network]['fontawesome'])) {
             $icon = $this->definitions[$network]['fontawesome'];
+            // Since fontawesome 6, need to set fa-brands, regular or solid
+            return sprintf(
+                '<i aria-hidden="true" class="%s-icon %s %s"></i>',
+                $this->classPrefix,
+                $this->iconPrefix,
+                $icon
+            );
         }
 
         return sprintf(
@@ -318,7 +335,7 @@ class SocialLinks
      * @param  string $network
      * @return string
      */
-    public function getUseSVG($network)
+    public function getUseSVG(string $network): string
     {
         if ($network == '') {
             throw new \RuntimeException("You must choose a social network", 1);
@@ -349,7 +366,7 @@ class SocialLinks
      * @param  string $icon
      * @return string
      */
-    public function getLink($network, $icon = '')
+    public function getLink(string $network, string $icon = ''): string
     {
         if ($network == '') {
             throw new \RuntimeException("You must choose a social network", 1);
@@ -379,7 +396,7 @@ class SocialLinks
      * @param string $network
      * @return string
      */
-    public function getNetworkDisplayTitle($network)
+    public function getNetworkDisplayTitle(string $network): string
     {
         if (!empty($this->definitions[$network]['display_title'])) {
             return $this->definitions[$network]['display_title'];
@@ -388,11 +405,10 @@ class SocialLinks
     }
 
     /**
-     * @param $network
-     *
+     * @param string $network
      * @return string Return the action label for accessibility matters.
      */
-    public function getNetworkShareActionLabel($network)
+    public function getNetworkShareActionLabel(string $network): string
     {
         return sprintf($this->getShareActionLabel(), $this->getNetworkDisplayTitle($network));
     }
@@ -401,15 +417,15 @@ class SocialLinks
      * Get HTML links tags without icon but text
      * for given social networks.
      *
-     * @param  array|string  $networks
+     * @param array<string>|string $networks
      * @param  string $separator
      * @return string
      */
-    public function getLinks($networks = array(), $separator = '')
+    public function getLinks($networks = [], string $separator = ''): string
     {
-        if (is_string($networks)) {
+        if (\is_string($networks)) {
             return $this->getLink($networks);
-        } elseif (is_array($networks)) {
+        } elseif (\is_array($networks)) {
             $output = array();
             foreach ($networks as $network) {
                 if ($this->supports($network)) {
@@ -426,11 +442,11 @@ class SocialLinks
      * Get HTML links tags with icon and text
      * for given social networks.
      *
-     * @param  array|string  $networks
+     * @param  array<string>|string  $networks
      * @param  string $separator
      * @return string
      */
-    public function getLinksWithIcon($networks = array(), $separator = '')
+    public function getLinksWithIcon($networks = [], string $separator = ''): string
     {
         if (is_string($networks)) {
             return $this->getLink($networks, $this->getIcon($networks));
@@ -451,15 +467,15 @@ class SocialLinks
      * Get HTML links tags with svg icon and text
      * for given social networks.
      *
-     * @param  array|string  $networks
+     * @param array<string>|string  $networks
      * @param  string $separator
      * @return string
      */
-    public function getLinksWithSVG($networks = array(), $separator = '')
+    public function getLinksWithSVG($networks = [], string $separator = ''): string
     {
         if (is_string($networks)) {
             return $this->getLink($networks, $this->getUseSVG($networks));
-        } elseif (is_array($networks)) {
+        } elseif (\is_array($networks)) {
             $output = array();
             foreach ($networks as $network) {
                 if ($this->supports($network)) {
@@ -473,9 +489,9 @@ class SocialLinks
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
-    public function getAvailableSocialNetworks()
+    public function getAvailableSocialNetworks(): array
     {
         return array_keys($this->definitions);
     }
@@ -484,9 +500,9 @@ class SocialLinks
      * Tell if SocialLinks supports given network.
      *
      * @param  string $network
-     * @return boolean
+     * @return bool
      */
-    public function supports($network)
+    public function supports(string $network): bool
     {
         return isset($this->definitions[$network]);
     }
@@ -494,9 +510,9 @@ class SocialLinks
     /**
      * Gets the value of classPrefix.
      *
-     * @return mixed
+     * @return string
      */
-    public function getClassPrefix()
+    public function getClassPrefix(): string
     {
         return $this->classPrefix;
     }
@@ -504,11 +520,11 @@ class SocialLinks
     /**
      * Sets the value of classPrefix.
      *
-     * @param mixed $classPrefix the class prefix
+     * @param string $classPrefix the class prefix
      *
-     * @return self
+     * @return static
      */
-    public function setClassPrefix($classPrefix)
+    public function setClassPrefix(string $classPrefix): self
     {
         $this->classPrefix = $classPrefix;
 
@@ -518,9 +534,9 @@ class SocialLinks
     /**
      * Gets the value of iconPrefix.
      *
-     * @return mixed
+     * @return string
      */
-    public function getIconPrefix()
+    public function getIconPrefix(): string
     {
         return $this->iconPrefix;
     }
@@ -528,11 +544,11 @@ class SocialLinks
     /**
      * Sets the value of iconPrefix.
      *
-     * @param mixed $iconPrefix the icon prefix
+     * @param string $iconPrefix the icon prefix
      *
-     * @return self
+     * @return static
      */
-    public function setIconPrefix($iconPrefix)
+    public function setIconPrefix(string $iconPrefix): self
     {
         $this->iconPrefix = $iconPrefix;
 
@@ -542,9 +558,9 @@ class SocialLinks
     /**
      * Gets the value of svgUrl.
      *
-     * @return mixed
+     * @return string
      */
-    public function getSvgUrl()
+    public function getSvgUrl(): string
     {
         return $this->svgUrl;
     }
@@ -552,11 +568,11 @@ class SocialLinks
     /**
      * Sets the value of svgUrl.
      *
-     * @param mixed $svgUrl the icon prefix
+     * @param string $svgUrl the icon prefix
      *
      * @return self
      */
-    public function setSvgUrl($svgUrl)
+    public function setSvgUrl(string $svgUrl): self
     {
         $this->svgUrl = $svgUrl;
 
@@ -566,9 +582,9 @@ class SocialLinks
     /**
      * Gets the value of linkClasses.
      *
-     * @return mixed
+     * @return string
      */
-    public function getLinkClasses()
+    public function getLinkClasses(): string
     {
         return $this->linkClasses;
     }
@@ -576,11 +592,11 @@ class SocialLinks
     /**
      * Sets the value of linkClasses.
      *
-     * @param mixed $linkClasses the link classes
+     * @param string $linkClasses the link classes
      *
      * @return self
      */
-    public function setLinkClasses($linkClasses)
+    public function setLinkClasses(string $linkClasses): self
     {
         $this->linkClasses = $linkClasses;
 
@@ -590,7 +606,7 @@ class SocialLinks
     /**
      * @return string
      */
-    public function getShareActionLabel()
+    public function getShareActionLabel(): string
     {
         return $this->shareActionLabel;
     }
@@ -600,7 +616,7 @@ class SocialLinks
      *
      * @return SocialLinks
      */
-    public function setShareActionLabel($shareActionLabel)
+    public function setShareActionLabel(string $shareActionLabel): self
     {
         $this->shareActionLabel = $shareActionLabel;
 

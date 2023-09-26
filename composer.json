@@ -10,9 +10,13 @@
         }
     ],
     "require": {
+        "php": ">=7.4",
         "twig/twig": "2.* || 3.*"
     },
     "autoload": {
         "psr-4": {"RZ\\SocialLinks\\": "src/"}
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10"
     }
 }

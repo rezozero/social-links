@@ -1,0 +1,7 @@
+parameters:
+    level: 6
+    paths:
+        - src
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
